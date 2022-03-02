@@ -1,2 +1,7 @@
-# Bazy_danych
+# Bazy danych
+
+## Aleksandra Witek
  
+### Lista 1
+ 
+ - [ ] 
