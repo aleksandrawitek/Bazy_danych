@@ -1,0 +1,13 @@
+1. Pobrać plik sql z MS Teams
+2. Wgrać na panoramx (np. sftp panoramx.ift.uni.wroc.pl)
+3. Zalogować się na panoramx (ssh panoramx.ift.uni.wroc.pl)
+3. Rozpocząć sesję SQL → np. komenda: mysql -p$(cat ~/.mysql)
+4. Utworzyć swoją bazę (CREATE DATABASE [nazwa_bazy];)
+   Uwaga! Nazwa bazy musi się zaczynać od loginu
+5. Wybrać tę bazę do użycia (USE [nazwa_bazy])
+6. Wczytać plik sql → source [ścieżka_do_pliku_sql]
+7. Można "bawić" się z bazą:
+   np.
+      SHOW TABLES;
+      SELECT * FROM klienci;
+       
