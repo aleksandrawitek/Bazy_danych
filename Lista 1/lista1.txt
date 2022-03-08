@@ -1,0 +1,13 @@
+Witek Aleksandra lista 1
+
+1. select current_date -> zwraca datę YYYY-MM-DD (dzisiejszą)
+select dayname(current_date); -> zwraca nazwę dnia tygodnia 
+
+2. select dayname('1999-06-01'); -> wtorek (tuesday)
+
+3. select pi(); -> zwraca liczbę pi
+select right (format(pi(),10),1); -> 10 miejsce po przecinku, z zaokragleniem, bez z truncate zamiast format
+
+4. select right (truncate(exp(1),8),1);
+
+
