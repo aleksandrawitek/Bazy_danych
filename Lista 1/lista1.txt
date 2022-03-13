@@ -10,4 +10,102 @@ select right (format(pi(),10),1); -> 10 miejsce po przecinku, z zaokragleniem, b
 
 4. select right (truncate(exp(1),8),1);
 
+5. select floor(rand()*(6)+1); -> wybor liczby calkowitej od 1 do 6
 
+6. select nazwa, ilosc from produkty;
+            |
+            v
+| nazwa             | ilosc |
++-------------------+-------+
+| laptop            |    12 |
+| plazma48          |     3 |
+| Samsung Galaxy S7 |    10 |
+| tablet            |    21 |
+| smartfon          |    13 |
+| Iphone_6          |    10 |
+| Iphone_6_plus     |     2 |
+| Asus R75VJ        |     8 |
+| laptop asus       |     8 |
+| HUAWEI P9         |    13 |
+| Samsung Galaxy J5 |    12 |
+| laptop dell       |     5 |
+| Apple Iphone 8    |     2 |
+| Apple Watch 3     |     7 |
++-------------------+-------+
+
+7. select idk,nazwa,miasto,substring_index(adres, '. ', -1) as adres,telefon from klienci;
+            |
+            v
+
++-----+---------------+----------+---------------------+------------+
+| idk | nazwa         | miasto   | adres               | telefon    |
++-----+---------------+----------+---------------------+------------+
+|   1 | Astro         | Wrocław  | Cybulskiego 12/2    | 0713229563 |
+|   2 | BCA           | Wrocław  | Pomorska 321/12     | 0719563372 |
+|   3 | XYZ           | Wrocław  | Borna 5/1           | 0713753372 |
+|   4 | ERE           | Warszawa | Marszałkowska 1 /2  | 0221122563 |
+|   5 | OCY           | Łódź     | Piotrkowska 111/1   | 0427213372 |
+|   6 | ATest         | Wrocław  | Nozownicza 1        | 606753717  |
+|   7 | JAFO          | Toruń    | Wirtualna           | 765092123  |
+|   8 | Cesoft        | Wrocław  | Rynek 0             | 456789765  |
+|  12 | INNOV         | Warszawa | Marszałkowska 1     | 0223456712 |
+|  24 | Jan Kowalczyk | Wrocław  | Opolska 119c        | 666777888  |
+|  27 | SP201         | Wrocław  | Borna 4             | 567321555  |
++-----+---------------+----------+---------------------+------------+
+
+8. SELECT GROUP_CONCAT(concat_ws(", ",nazwa, adres, miasto, telefon)) as wizytowka from klienci group by idk; 
+
+            |
+            v
++--------------------------------------------------+
+| wizytowka                                        |
++--------------------------------------------------+
+| Astro, Cybulskiego 12/2, Wrocław, 0713229563     |
+| BCA, ul. Pomorska 321/12, Wrocław, 0719563372    |
+| XYZ, Pl. Borna 5/1, Wrocław, 0713753372          |
+| ERE, Marszałkowska 1 /2, Warszawa, 0221122563    |
+| OCY, ul. Piotrkowska 111/1 , Łódź, 0427213372    |
+| ATest, Nozownicza 1, Wrocław, 606753717          |
+| JAFO, Wirtualna , Toruń, 765092123               |
+| Cesoft, Rynek 0, Wrocław, 456789765              |
+| INNOV, Marszałkowska 1, Warszawa, 0223456712     |
+| Jan Kowalczyk, Opolska 119c, Wrocław, 666777888  |
+| SP201, Borna 4, Wrocław, 567321555               |
++--------------------------------------------------+
+
+10. select idz, data, if(dayname(date_add(data, interval 1 month)) = 'saturday' or dayname(date_add(data, interval 1 month)) = 'saturday',if(dayname(date_add(data, interval 1 month))='saturday',date_add(date_add(data, interval 1 month),
+interval -1 day),date_add(date_add(data, interval 1 month), interval -2 day)),date_add(data, interval 1 month)) as 'data faktury' from zamow;
+
++-----+---------------------+---------------------+
+| idz | data                | data faktury        |
++-----+---------------------+---------------------+
+|   2 | 2017-03-24 12:26:22 | 2017-04-24 12:26:22 |
+|   3 | 2017-03-24 12:32:54 | 2017-04-24 12:32:54 |
+|   4 | 2017-03-30 12:16:02 | 2017-04-30 12:16:02 |
+|   5 | 2017-04-05 16:45:34 | 2017-05-05 16:45:34 |
+|  15 | 2017-05-23 11:56:52 | 2017-06-23 11:56:52 |
+|  21 | 2017-05-29 16:04:29 | 2017-06-29 16:04:29 |
+|  39 | 2017-05-30 11:39:33 | 2017-06-30 11:39:33 |
+|  41 | 2017-05-30 11:51:37 | 2017-06-30 11:51:37 |
+|  43 | 2017-08-28 11:59:30 | 2017-09-28 11:59:30 |
+|  45 | 2017-09-17 12:21:58 | 2017-10-17 12:21:58 |
+|  48 | 2017-10-30 18:19:36 | 2017-11-30 18:19:36 |
+|  49 | 2017-11-16 17:40:02 | 2017-12-15 17:40:02 |
+|  50 | 2017-10-02 17:41:12 | 2017-11-02 17:41:12 |
+|  51 | 2017-06-24 17:47:22 | 2017-07-24 17:47:22 |
+|  52 | 2017-05-05 17:48:40 | 2017-06-05 17:48:40 |
++-----+---------------------+---------------------+
+
+11. select nazwa from klienci where miasto != 'Wrocław';
+
+12. select nazwa from klienci where left(nazwa,char_length(nazwa)/2) LIKE '%s%';
+
+13. select data from zamow where dayname(data) = 'Monday' or dayname(data) = "Friday";
+
+14. select * from zamow where hour(data)>16 or (hour(data)=16 and minute(data)>0);
+
+15. select nazwa from produkty where nazwa NOT LIKE '%apple%';
+
+16. select nazwa from klienci where adres LIKE '%Marszałkowska%';
+
+17. select miasto from klienci where char_length(adres)>15;
