@@ -109,3 +109,7 @@ interval -1 day),date_add(date_add(data, interval 1 month), interval -2 day)),da
 16. select nazwa from klienci where adres LIKE '%Marszałkowska%';
 
 17. select miasto from klienci where char_length(adres)>15;
+
+18. select nazwa, cena, if(cena >1500, ceiling((0.1*cena+cena)/12), "-") as rata from produkty;
+
+19. select p_id, max(sztuk) from detal_zamow group by p_id;
