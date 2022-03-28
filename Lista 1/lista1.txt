@@ -53,7 +53,7 @@ select right (format(pi(),10),1); -> 10 miejsce po przecinku, z zaokragleniem, b
 |  27 | SP201         | Wrocław  | Borna 4             | 567321555  |
 +-----+---------------+----------+---------------------+------------+
 
-8. SELECT GROUP_CONCAT(concat_ws(", ",nazwa, adres, miasto, telefon)) as wizytowka from klienci group by idk; 
+8. select group_concat(concat_ws(", ",nazwa, adres, miasto, telefon)) as wizytowka from klienci group by idk; 
 
             |
             v
@@ -72,6 +72,8 @@ select right (format(pi(),10),1); -> 10 miejsce po przecinku, z zaokragleniem, b
 | Jan Kowalczyk, Opolska 119c, Wrocław, 666777888  |
 | SP201, Borna 4, Wrocław, 567321555               |
 +--------------------------------------------------+
+
+9. select nazwa, JSON_OBJECT("zlotych", floor(cena),"groszy", round(((cena - floor(cena)) * 100), 1)) as cena from produkty; 
 
 10. select idz, data, if(dayname(date_add(data, interval 1 month)) = 'saturday' or dayname(date_add(data, interval 1 month)) = 'saturday',if(dayname(date_add(data, interval 1 month))='saturday',date_add(date_add(data, interval 1 month),
 interval -1 day),date_add(date_add(data, interval 1 month), interval -2 day)),date_add(data, interval 1 month)) as 'data faktury' from zamow;
@@ -112,4 +114,7 @@ interval -1 day),date_add(date_add(data, interval 1 month), interval -2 day)),da
 
 18. select nazwa, cena, if(cena >1500, ceiling((0.1*cena+cena)/12), "-") as rata from produkty;
 
-19. select p_id, max(sztuk) from detal_zamow group by p_id;
+19. select * from produkty;
+    select idp from produkty where ilosc = (select max(ilosc) from produkty);
+    select * from detal_zamow where p_id = (select idp from produkty where ilosc = (select max(ilosc) from produkty)); 
+    select count(distinct z_id) from detal_zamow where p_id = (select idp from produkty where ilosc = (select max(ilosc) from produkty)); 
