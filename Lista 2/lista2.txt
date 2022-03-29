@@ -1,0 +1,52 @@
+Witek Aleksandra lista 2
+
+1. select * from klienci, produkty;
+
+2. select zamow.*,  detal_zamow.sztuk from detal_zamow inner join zamow on detal_zamow.z_id = zamow.idz;
+
+3. select produkty.nazwa, sum(detal_zamow.sztuk) from detal_zamow,produkty where detal_zamow.p_id = produkty.idp group by produkty.nazwa;
+
+                |
+                v
+    +-------------------+-------+
+    | nazwa             | sztuk |
+    +-------------------+-------+
+    | laptop            |     1 |
+    | laptop            |     5 |
+    | laptop            |     2 |
+    | laptop            |     1 |
+    | laptop            |     2 |
+    | Samsung Galaxy S7 |     3 |
+    | Samsung Galaxy S7 |     2 |
+    | tablet            |     7 |
+    | tablet            |     2 |
+    | tablet            |     2 |
+    | tablet            |     2 |
+    | smartfon          |     2 |
+    | smartfon          |     2 |
+    | Iphone_6          |     5 |
+    | Iphone_6_plus     |     1 |
+    | Iphone_6_plus     |     1 |
+    | Asus R75VJ        |     1 |
+    | laptop asus       |     3 |
+    | HUAWEI P9         |     2 |
+    | HUAWEI P9         |     3 |
+    | Samsung Galaxy J5 |     2 |
+    | Samsung Galaxy J5 |     3 |
+    | laptop dell       |     1 |
+    | laptop dell       |     2 |
+    | Apple Iphone 8    |     1 |
+    | Apple Watch 3     |     1 |
+    | Apple Watch 3     |     1 |
+    +-------------------+-------+
+
+    select distinct nie będzie tu zasadne, poniewaz usunie duplikaty -> suma nie będzie się zgadzać
+    bez duplikatów: 
+    select produkty.nazwa, sum(detal_zamow.sztuk) from detal_zamow,produkty where detal_zamow.p_id = produkty.idp group by produkty.nazwa; //lub detal_zamow.p_id
+
+4. select * from detal_zamow order by sztuk desc;
+
+5. 
+
+
+
