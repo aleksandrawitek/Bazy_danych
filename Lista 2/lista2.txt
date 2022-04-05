@@ -46,7 +46,96 @@ Witek Aleksandra lista 2
 
 4. select * from detal_zamow order by sztuk desc;
 
-5. 
+5. select detal_zamow.sztuk from detal_zamow, zamow where (detal_zamow.z_id= zamow.idz and time(zamow.data) > time("12:00:00"));
 
+                |
+                v
+            +-------+             
+            | sztuk |
+            +-------+
+            |     3 |
+            |     1 |
+            |     5 |
+            |     2 |
+            |     5 |
+            |     1 |
+            |     7 |
+            |     2 |
+            |     2 |
+            |     2 |
+            |     1 |
+            |     3 |
+            |     3 |
+            |     1 |
+            |     1 |
+            |     2 |
+            |     2 |
+            |     2 |
+            |     2 |
+            |     1 |
+            |     1 |
+            +-------+               
 
+sprawdzenie:
 
++-------+---------------------+
+| sztuk | data                |
++-------+---------------------+
+|     3 | 2017-03-24 12:26:22 |
+|     1 | 2017-03-24 12:26:22 |
+|     5 | 2017-03-24 12:32:54 |
+|     2 | 2017-03-24 12:32:54 |
+|     5 | 2017-03-30 12:16:02 |
+|     1 | 2017-04-05 16:45:34 |
+|     7 | 2017-04-05 16:45:34 |
+|     2 | 2017-04-05 16:45:34 |
+|     2 | 2017-05-29 16:04:29 |
+|     2 | 2017-09-17 12:21:58 |
+|     1 | 2017-10-30 18:19:36 |
+|     3 | 2017-11-16 17:40:02 |
+|     3 | 2017-11-16 17:40:02 |
+|     1 | 2017-10-02 17:41:12 |
+|     1 | 2017-10-02 17:41:12 |
+|     2 | 2017-10-02 17:41:12 |
+|     2 | 2017-06-24 17:47:22 |
+|     2 | 2017-06-24 17:47:22 |
+|     2 | 2017-05-05 17:48:40 |
+|     1 | 2017-05-05 17:48:40 |
+|     1 | 2017-05-05 17:48:40 |
++-------+---------------------+
+
+6. select monthname(zamow.data) from zamow, klienci where zamow.k_id = klienci.idk and klienci.miasto != "Wrocław";
+
+7. select produkty.cena from produkty, detal_zamow, zamow 
+    where produkty.idp = detal_zamow.p_id and zamow.idz = detal_zamow.z_id and dayname(zamow.data) = "Friday";
+
+8. select klienci.nazwa from detal_zamow,zamow, klienci where detal_zamow.z_id = zamow.idz 
+    and zamow.k_id = klienci.idk and detal_zamow.sztuk > 4 order by klienci.miasto, detal_zamow.sztuk desc;
+
+9. select klienci.adres from klienci, produkty, detal_zamow, zamow 
+    where produkty.idp = detal_zamow.p_id and klienci.idk = zamow.k_id 
+    and zamow.idz = detal_zamow.z_id and produkty.nazwa = "laptop";
+
+10. select produkty.nazwa from klienci, produkty, detal_zamow, zamow 
+    where produkty.idp = detal_zamow.p_id and klienci.idk = zamow.k_id 
+    and zamow.idz = detal_zamow.z_id and klienci.telefon like '4%' order by reverse(klienci.nazwa) asc;
+
+11. select klienci.nazwa, produkty.nazwa, strcmp(klienci.nazwa,str(produkty.nazwa)) as "compare" FROM klienci, produkty;
+
+12. select klienci.nazwa, date(zamow.data) from klienci, zamow where klienci.idk = zamow.k_id order by date(zamow.data) asc;
+    select klienci.nazwa from klienci where not exists(select * from zamow where klienci.idk = zamow.k_id);
+
+    w jednym poleceniu:
+    select klienci.nazwa, date(zamow.data) from klienci, zamow where klienci.idk = zamow.k_id union select klienci.nazwa, " " as "date(zamow.data)" from klienci where not exists(select * from zamow where klienci.idk = zamow.k_id) order by "date(zamow.data)" asc;
+
+13. select klienci.miasto, produkty.nazwa from klienci inner join zamow on klienci.idk = zamow.k_id inner join detal_zamow on zamow.idz = detal_zamow.z_id inner join produkty on produkty.idp = detal_zamow.p_id;    
+    
+
+14. select produkty.nazwa from produkty where not exists (select * from detal_zamow where detal_zamow.p_id = produkty.idp);
+
+15. select klienci.nazwa from klienci where not exists (select * from zamow where zamow.k_id = klienci.idk);
+
+16. select * from zamow where not exists (select * from detal_zamow where zamow.idz = detal_zamow.z_id); -> empty set
+    select * from detal_zamow where not exists (select * from zamow where zamow.idz = detal_zamow.z_id); -> empty set
+
+    select klienci.nazwa, date(zamow.data) from klienci, zamow where klienci.idk = zamow.k_id union select klienci.nazwa, " " as "date(zamow.data)" from klienci where not exists(select * from zamow where klienci.idk = zamow.k_id);
