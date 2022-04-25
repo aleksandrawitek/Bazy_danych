@@ -1,1 +1,40 @@
-1. 
+1. select sum(produkty.cena*produkty.ilosc) as "laczna kwota" from produkty;
+
+2. select group_concat(nazwa order by nazwa asc separator ', ') from klienci;
+
+3. select produkty.nazwa,datediff(MAX(zamow.data))-dayofyear(MIN(zamow.data)),count(nazwa) 
+from produkty INNER JOIN detal_zamow ON produkty.idp=detal_zamow.p_id INNER JOIN zamow ON zamow.idz=detal_zamow.z_id 
+where produkty.nazwa LIKE '%SAMSUNG%' GROUP BY produkty.idp;
+
+
+4. select dayname(zamow.data) as dzien,count(klienci.nazwa) as liczba from klienci inner join zamow on k_id=idk 
+inner join detal_zamow on idz=z_id inner join produkty on idp=p_id group by dzien order by liczba;
+
+5. select dayofweek(zamow.data) as dzien,count(klienci.nazwa) as liczba from klienci inner join zamow on k_id=idk 
+inner join detal_zamow on idz=z_id inner join produkty on idp=p_id group by dzien order by dzien;
+
+6. select ceiling((cena)/1000)*1000 as cen,JSON_ARRAYAGG(nazwa) from produkty group by cen;
+
+7. select nazwa,sum(cena*sztuk) from produkty LEFT JOIN detal_zamow on idp=p_id group by idp having SUM(cena*sztuk)>7000;
+
+8. select klienci.nazwa from klienci inner join zamow on idk=k_id inner join detal_zamow on idz=z_id inner join produkty on p_id=idp 
+where produkty.cena>1800 and detal_zamow.sztuk>1;
+
+9. select nazwa,SUM(sztuk)/COUNT(sztuk) as srednia from produkty inner join detal_zamow on idp=p_id inner join zamow on idz=z_id
+where dayname(data)='FRIDAY' group by nazwa;
+
+10. select distinct klienci.nazwa,count(zamow.idz) from klienci inner join zamow on idk=k_id inner join detal_zamow on idz=z_id 
+inner join produkty on p_id=idp group by nazwa;
+
+11. select distinct(produkty.nazwa),sum(detal_zamow.p_id*detal_zamow.sztuk) as zamowionych from produkty inner join detal_zamow on idp=p_id group by nazwa;
+
+12. select distinct(klienci.miasto),sum(detal_zamow.sztuk) as lacznie from klienci inner join zamow on idk=k_id inner join detal_zamow on idz=z_id group by miasto;
+
+13. select distinct(klienci.nazwa) , klienci.miasto , sum(detal_zamow.sztuk*produkty.cena)as suma from klienci inner join zamow on idk=k_id 
+inner join detal_zamow on idz=z_id inner join produkty on idp=p_id group by idk;
+
+14. select distinct(zamow.data),sum(detal_zamow.sztuk*produkty.cena) as calkowita from zamow inner join detal_zamow on idz=z_id 
+inner join produkty on idp=p_id group by idz;
+
+15. select distinct(klienci.nazwa) , klienci.miasto , sum(detal_zamow.sztuk) as sumka from klienci inner join zamow on idk=k_id 
+inner join detal_zamow on idz=z_id inner join produkty on idp=p_id and cena>1500 group by idk;
