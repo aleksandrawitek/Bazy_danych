@@ -27,32 +27,32 @@ inner join detal_zamow dz on p.idp = dz.p_id inner join zamow z on dz.z_id = z.i
 left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp group by klient order by suma desc;
 
 10. a) select p.nazwa, sum(dz.sztuk) as ile_razy from produkty p inner join detal_zamow dz on p.idp = dz.p_id 
-    inner join zamow z on dz.z_id = z.idz group by p.nazwa order by ile_razy desc;
+inner join zamow z on dz.z_id = z.idz group by p.nazwa order by ile_razy desc;
 
     b) select p.nazwa, max(dz.sztuk) as max_sztuk from produkty p inner join detal_zamow dz on p.idp = dz.p_id
-    inner join zamow z on dz.z_id = z.idz group by p.nazwa order by max_sztuk desc;
+inner join zamow z on dz.z_id = z.idz group by p.nazwa order by max_sztuk desc;
 
 
 
 11. select p.nazwa, date(z.data) as dzien, sum(sztuk * cena) as suma from produkty p
-    inner join detal_zamow dz on p.idp = dz.p_id inner join zamow z on dz.z_id = z.idz group by dzien, p.nazwa;
-    select nazwa, dzien from zadanie where suma in (select max(suma) from zadanie group by dzien);
+inner join detal_zamow dz on p.idp = dz.p_id inner join zamow z on dz.z_id = z.idz group by dzien, p.nazwa;
+select nazwa, dzien from zadanie where suma in (select max(suma) from zadanie group by dzien);
     
-    select ANY_VALUE(nazwa), dzien, max(suma) from zadanie group by dzien;
+select any_value(nazwa), dzien, max(suma) from zadanie group by dzien;
 
 12. select distinct date(data) as only_date, nazwa, miasto from zadanie1_1 order by only_date desc limit 10;
 
 
 13. create or replace view zadanie as
-    select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
-    left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
-    group by k.nazwa, p.nazwa;
+select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
+left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
+group by k.nazwa, p.nazwa;
 
-    select nazwa_produktu, klient from zadanie1_1;
+select nazwa_produktu, klient from zadanie1_1;
 
-    select max(zadanie.koszt_zam), zadanie.klient, z.produkt from zadanie 
-    left join zadanie z on zadanie.produkt = z.produkt group by zadanie.klient, z.produkt;
+select max(zadanie.koszt_zam), zadanie.klient, z.produkt from zadanie 
+left join zadanie z on zadanie.produkt = z.produkt group by zadanie.klient, z.produkt;
     
-    select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
-    left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
-    group by k.nazwa, p.nazwa;
+select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
+left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
+group by k.nazwa, p.nazwa;
