@@ -1,0 +1,58 @@
+1. create or replace view zadanie1_1 as select klienci.*, zamow.*, detal_zamow.* from klienci left join 
+zamow on zamow.k_id = klienci.idk left join detal_zamow on detal_zamow.z_id = zamow.idz;
+
+2. create or replace view zadanie1_2 as select produkty.*, zamow.*, detal_zamow.*, produkty.nazwa as nazwa_produktu from klienci left join
+zamow on zamow.k_id = klienci.idk left join detal_zamow on detal_zamow.z_id = zamow.idz left join produkty on produkty.idp = detal_zamow.p_id;
+
+3. select distinct zadanie1_1.nazwa, zadanie1_2.nazwa from zadanie1_1 inner join zadanie1_2 on zadanie1_2.p_id = zadanie1_1.p_id and zadanie1_2.nazwa like "%laptop%" or zadanie1_2.nazwa like "%tablet%"; 
+
+4. create or replace view laptopy as select * from produkty where nazwa like "%laptop%";
+select distinct zadanie1_1.nazwa, zadanie1_2.nazwa, zadanie1_2.cena from zadanie1_1 inner join zadanie1_2 on zadanie1_2.p_id = zadanie1_1.p_id inner join laptopy on laptopy.cena < zadanie1_2.cena;
+
+5. create or replace view warszawa AS SELECT * from klienci WHERE miasto = "Warszawa";
+select distinct zadanie1_1.nazwa, zadanie1_2.nazwa from zadanie1_2 inner join zadanie1_1 on zadanie1_2.p_id = zadanie1_1.p_id inner join warszawa on warszawa.nazwa > zadanie1_1.nazwa;
+
+6. create or replace view wszyscy_cenasuma as select zadanie1_1.nazwa, sum(zadanie1_2.cena) as suma from zadanie1_1 inner join zadanie1_2
+on zadanie1_1.p_id = zadanie1_2.p_id group by zadanie1_1.nazwa;
+create or replace view astro_cenasuma as select zadanie1_1.nazwa, sum(zadanie1_2.cena) as suma from zadanie1_1 inner join zadanie1_2 on
+zadanie1_1.p_id = zadanie1_2.p_id and zadanie1_1.nazwa = "Astro";
+select wszyscy_cenasuma.nazwa from wszyscy_cenasuma, astro_cenasuma where wszyscy_cenasuma.suma > astro_cenasuma.suma;
+
+7.
+
+8. select round(sum(dz.sztuk * p.cena) / count(z.idz), 2) as srednia, weekofyear(data) as nr_tydzien from produkty p 
+inner join detal_zamow dz on p.idp = dz.p_id inner join zamow z on dz.z_id = z.idz group by nr_tydzien order by nr_tydzien;
+
+9. select k.nazwa as klient, ifnull(sum(cena * sztuk), 0) as suma from klienci k left join zamow z on k.idk = z.k_id 
+left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp group by klient order by suma desc;
+
+10. a) select p.nazwa, sum(dz.sztuk) as ile_razy from produkty p inner join detal_zamow dz on p.idp = dz.p_id 
+    inner join zamow z on dz.z_id = z.idz group by p.nazwa order by ile_razy desc;
+
+    b) select p.nazwa, max(dz.sztuk) as max_sztuk from produkty p inner join detal_zamow dz on p.idp = dz.p_id
+    inner join zamow z on dz.z_id = z.idz group by p.nazwa order by max_sztuk desc;
+
+
+
+11. select p.nazwa, date(z.data) as dzien, sum(sztuk * cena) as suma from produkty p
+    inner join detal_zamow dz on p.idp = dz.p_id inner join zamow z on dz.z_id = z.idz group by dzien, p.nazwa;
+    select nazwa, dzien from zadanie where suma in (select max(suma) from zadanie group by dzien);
+    
+    select ANY_VALUE(nazwa), dzien, max(suma) from zadanie group by dzien;
+
+12. select distinct date(data) as only_date, nazwa, miasto from zadanie1_1 order by only_date desc limit 10;
+
+
+13. create or replace view zadanie as
+    select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
+    left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
+    group by k.nazwa, p.nazwa;
+
+    select nazwa_produktu, klient from zadanie1_1;
+
+    select max(zadanie.koszt_zam), zadanie.klient, z.produkt from zadanie 
+    left join zadanie z on zadanie.produkt = z.produkt group by zadanie.klient, z.produkt;
+    
+    select k.nazwa as klient, p.nazwa as produkt, ifnull(sum(cena * sztuk), 0) as koszt_zam from klienci k
+    left join zamow z on k.idk = z.k_id left join detal_zamow dz on z.idz = dz.z_id left join produkty p on dz.p_id = p.idp
+    group by k.nazwa, p.nazwa;
