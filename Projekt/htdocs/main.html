@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {background-image: url("img/background.png");}
+            button {border-radius: 12px; background-color:  #ffb3b3;} 
+        </style>
+        <title>Aplikacja hotelowa</title>
+    </head>
+<body>
+    <center><img id="logo" src="img/logo.png"></center>
+    <center><table>
+    <tr>
+        <td><center><button id = "checkin" onclick="window.location.href='checkin.php'"> Zamelduj </button></center></td>
+        <td><center><button id = "guests" onclick="window.location.href='guests.php'"> Zameldowani </button></center></td> 
+    </tr>
+    <tr>
+        <td><center><button id = "res" onclick="window.location.href='res.php'"> Rezerwacje </button></center></td>
+        <td><center><button id = "his" onclick="window.location.href='his.php'"> Kartoteka </button></center></td>
+    </tr>
+    <tr>
+        <td><center><button id = "rooms" onclick="window.location.href='rooms.php'"> Pokoje </button></center></td> 
+        <td><center><button id = "extras" onclick="window.location.href='extras.php'"> Dodatkowe </button></center></td>
+    </tr>
+    </table></center>
+    <script>
+        
+        // wymiary ekranu
+
+        let width = screen.width;
+        let height = screen.height;
+
+        // wymiary loga w zaleznosci od dlugosci ekranu
+
+        document.getElementById("logo").width = width/4;
+        document.getElementById("logo").height = width/4;
+        document.getElementById("logo").style.marginBottom = height/100 + "px";
+
+        // wymiary przyciskow
+
+        var buttons = document.getElementsByTagName("button");
+
+        for (var i = 0; i < buttons.length; i++)
+        {
+            buttons[i].style.width = width/5 + "px";
+            buttons[i].style.height = height/50 + "px";
+        }
+    </script>
+</body>
+</html>

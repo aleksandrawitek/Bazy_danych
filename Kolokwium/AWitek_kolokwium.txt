@@ -1,0 +1,24 @@
+Aleksandra Witek
+s308968
+ZESTAW A (wersja dla grupu numer 1, wtorek 10-12)
+
+
+1. select imie, nazwisko from czytelnik where adres like '%, T%';
+
+2. select * from rezerwacja where month(datazamow) = 4;
+
+3. select wydawnictwo from egzemplarz,dzielo where dzielo.rokpowstania >= 1801 and dzielo.rokpowstania<=1900 and dzielo.idd = egzemplarz.d_id;
+
+4. select czytelnik.* from czytelnik, rezerwacja where datediff(rezerwacja.datazwrot, rezerwacja.datawypoz)>1 and rezerwacja.c_id = czytelnik.idc;
+
+5. select wydawnictwo from egzemplarz where egzemplarz.ide not in (select e_id from rezerwacja) order by wydawnictwo asc;
+
+6. select count(*) from dzielo, rezerwacja, egzemplarz where tytul like '%Mechanika%' and dayname(rezerwacja.datawypoz) = 'Monday' and rezerwacja.e_id = egzemplarz.ide and egzemplarz.d_id = dzielo.idd;
+
+7. select count(*) from czytelnik, rezerwacja where length(czytelnik.imie)>5 and rezerwacja.datazwrot is null and rezerwacja.c_id=czytelnik.idc;
+
+8. select egzemplarz.*, rezerwacja.datazwrot from egzemplarz, rezerwacja where month(rezerwacja.datawypoz) >= 3 and rezerwacja.e_id = egzemplarz.ide and rezerwacja.datazwrot = (select max(datazwrot) from rezerwacja where rezerwacja.e_id = egzemplarz.ide);
+
+9. select dzielo.*, egzemplarz.rokwydania from dzielo, egzemplarz where egzemplarz.rokwydania = (select max(rokwydania) from egzemplarz where egzemplarz.d_id = dzielo.idd);
+
+10. select distinct czytelnik.* from czytelnik, rezerwacja, egzemplarz where rezerwacja.c_id = czytelnik.idc and rezerwacja.e_id = egzemplarz.ide and egzemplarz.wydawnictwo = 'PWN' or egzemplarz.wydawnictwo = 'Czytelnik';
